@@ -1,0 +1,148 @@
+<div class="container">
+  <h3 class="mb-1">Ordini recenti</h3>
+  <p class="text-muted mb-4">Guarda lo storico degli ordini</p>
+
+  <div
+    class="accordion"
+    *ngIf="orders.length != 0; else no_content"
+    id="accordionOrders"
+  >
+    <div class="accordion-item" *ngFor="let o of orders; let i = index">
+      <h2 class="accordion-header">
+        <button
+          class="accordion-button collapsed"
+          type="button"
+          (click)="GetOrderDetails(o.salesOrderId)"
+          data-bs-toggle="collapse"
+          [attr.data-bs-target]="'#collapse' + i"
+          [attr.aria-controls]="'collapse' + i"
+          aria-expanded="false"
+        >
+          <div class="d-flex flex-wrap hstack gap-2 me-2">
+            <div class="badge text-bg-secondary">
+              Ordine: {{ o.salesOrderId }}
+            </div>
+            <div class="badge text-bg-secondary">
+              Data: {{ o.orderDate | date : "shortDate" }}
+            </div>
+            <div class="badge text-bg-success">Totale: {{ o.totalDue }}$</div>
+            <div class="badge text-bg-success">{{ o.status }}</div>
+          </div>
+        </button>
+      </h2>
+      <div
+        [id]="'collapse' + i"
+        class="accordion-collapse collapse"
+        data-bs-parent="#accordionOrders"
+      >
+        <div class="accordion-body overflow-auto" style="max-height: 500px">
+          @if (isLoading) {
+          <app-spinner></app-spinner>
+          } @else {
+          <div>
+            <div class="py-2 vstack gap-1">
+              @if (orderDetails.status == 1) {
+              <app-payment-error [role]="'servizio.clienti@ridewild.it'"></app-payment-error>
+              }
+              <div class="hstack">
+                <h3>Ordine {{ orderDetails.orderId }}</h3>
+                <h5 class="ms-auto">
+                  <span class="badge text-bg-success">{{
+                    statusToString
+                  }}</span>
+                </h5>
+              </div>
+              <div>
+                Ordine effettuato il
+                {{ orderDetails.orderDate | date : "dd-MM-yyyy" }}
+              </div>
+              <hr />
+              <div class="py-2">
+                <h4>Informazioni di spedizione</h4>
+                <div class="row">
+                  <div class="col">
+                    <div>Indirizzo di spedizione</div>
+                    <div>{{ orderDetails.shipAddress }}</div>
+                  </div>
+                  <div class="col">
+                    <div>Indirizzo di fatturazione</div>
+                    <div>{{ orderDetails.billAddress }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div class="py-2">
+              <h4>Dettaglio prodotti</h4>
+              <div>
+                {{ orderDetails.productsInfo.length }} prodotto/i nel tuo ordine
+              </div>
+              <div class="mt-2 productList">
+                @for (item of orderDetails.productsInfo; track $index) {
+                <div
+                  class="d-flex py-3 product-detail-container align-items-center"
+                >
+                  <div class="me-4">
+                    @if (item.productImage) {
+                    <img
+                      [src]="'data:image/gif;base64,' + item.productImage"
+                      class="product-image"
+                      alt="Product thumbnail"
+                    />
+                    }
+                  </div>
+                  <div class="vstack">
+                    <div>Nome: {{ item.productName }}</div>
+                    <div>Quantità: {{ item.orderQty }}</div>
+                    <div>Prezzo: {{ item.unitPrice | currency }}</div>
+                    @if (item.unitPriceDiscount != 0) {
+                    <div>Sconto: {{ item.unitPriceDiscount }}%</div>
+                    }
+                  </div>
+                  <div class="align-self-end">
+                    <div class="fw-bold">{{ item.lineTotal | currency }}</div>
+                  </div>
+                </div>
+                }
+              </div>
+              <hr />
+              <div class="pt-2 vstack col-12">
+                <h4>Riepilogo</h4>
+                <div class="hstack">
+                  <div>Imponibile:</div>
+                  <div class="ms-auto">
+                    {{ orderDetails.subTotal | currency }}
+                  </div>
+                </div>
+                <div class="hstack">
+                  <div>Iva:</div>
+                  <div class="ms-auto">
+                    {{ orderDetails.taxAmt | currency }}
+                  </div>
+                </div>
+                <div class="hstack">
+                  <div>Spedizione:</div>
+                  <div class="ms-auto">
+                    {{ orderDetails.freight | currency }}
+                  </div>
+                </div>
+                <hr />
+                <div class="hstack fw-bold fs-5">
+                  <div>Totale:</div>
+                  <div class="ms-auto">
+                    {{ orderDetails.totalDue | currency }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #no_content>
+  <p>Nessun ordine</p>
+</ng-template>

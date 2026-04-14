@@ -1,0 +1,30 @@
+<div class="container pt-5">
+
+    <h1 class="mb-3">Risultati ricerca</h1>
+
+    <p *ngIf="loading">Caricamento…</p>
+    <p *ngIf="errorMsg">{{ errorMsg }}</p>
+
+    <div class="row" *ngIf="!loading && !errorMsg">
+        <div class="col-sm-6 col-lg-4 col-xl-3 mb-4" *ngFor="let p of products">
+            <div class="card border border-success border-2 rounded-4 border-opacity-10 h-100 d-flex flex-column shadow-sm">
+
+                <img *ngIf="p.thumbnailUrl" class="rounded-4" [src]="'data:image/png;base64,' + p.thumbnailUrl"
+                    alt="Thumbnail" />
+
+                <div class="card-body d-flex flex-column flex-grow-1">
+                    <p class="card-title fw-bold"><strong>{{ p.name }}</strong>
+                    <p class="card-text fw-bold"><strong>{{ p.listPrice | currency }}</strong></p>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <button class="btn btn-dark flex-fill me-2 view-details"
+                            [routerLink]="['/products', p.productId]">Dettagli</button>
+                        <button class="btn btn-success border cart-button" (click)="addToCart(p.productId)">
+                            <i class="bi bi-bag"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,53 @@
+<!-- Button trigger modal -->
+<div class="d-grid">
+  <button
+    class="btn btn-outline-danger"
+    data-bs-toggle="modal"
+    data-bs-target="#deleteModal"
+  >
+    Elimina
+  </button>
+</div>
+
+<!-- Modal -->
+  <div
+    class="modal fade"
+    id="deleteModal"
+    tabindex="-1"
+    aria-labelledby="deleteModalLabel"
+  >
+    <div class="modal-dialog" data-bs-target="#deleteModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="deleteModalLabel">Elimina ordine: {{ orderId() }}</h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-dismiss="modal"
+            (click)="CloseModal()"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+            <div>Sei sicuro di voler eliminare questo ordine?</div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="CloseModal()"
+            data-dismiss="modal"
+          >
+            Chiudi
+          </button>
+          <button
+            (click)="DeleteOrder()"
+            type="button"
+            class="btn btn-danger"
+          >
+            Elimina
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>

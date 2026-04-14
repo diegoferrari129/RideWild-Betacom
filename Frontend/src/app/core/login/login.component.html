@@ -1,0 +1,136 @@
+<section class="pt-3">
+  <div class="container-fluid bg-green-50-custom">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h2 class="mt-4">Benvenuto in RideWild</h2>
+      </div>
+      <div class="col-12 text-center">
+        <p>Accedi qui oppure crea il tuo account</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container bg-green-50-custom mt-2">
+    <div class="d-flex justify-content-center gap-3 auth-tabs">
+      <button class="btn-custom" [class.active]="selectedTab==='login'"
+        (click)="selectedTab='login'; clearErrors()">Accedi</button>
+      <button class="btn-custom" [class.active]="selectedTab==='register'"
+        (click)="selectedTab='register'; clearErrors()">Registrati</button>
+    </div>
+  </div>
+  <div class="auth-content bg-green-50-custom">
+    <!-- LOGIN -->
+    <ng-container *ngIf="selectedTab==='login'">
+      <div class="container mb-5">
+        <div class="row justify-content-center">
+          <div class="col-12 col-md-6">
+            <div class="card p-4 shadow-sm">
+              <h2 class="mb-4">Accedi</h2>
+              <form (ngSubmit)="onSubmit()" #loginForm="ngForm" novalidate>
+                <div class="mb-3">
+                  <label>Email</label>
+                  <input type="email" class="form-control" name="email" placeholder="Inserisci email"
+                    [(ngModel)]="auth.email" required>
+                </div>
+                <div class="mb-3">
+                  <label>Password</label>
+                  <div class="input-group">
+                    <input [type]="showLoginPassword ? 'text' : 'password'" class="form-control" name="password"
+                      placeholder="Inserisci password" [(ngModel)]="auth.password" required>
+                    <button type="button" class="btn btn-outline-secondary"
+                      (click)="showLoginPassword = !showLoginPassword">
+                      <i class="bi" [ngClass]="showLoginPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+                    </button>
+                  </div>
+                </div>
+                <button class="btn btn-green w-100" type="submit" [disabled]="!auth.email || !auth.password">
+                  Accedi
+                </button>
+              </form>
+
+              <a class="d-block mt-2 text-center hover-cust" routerLink="/recover">
+                Non ricordi come accedere?
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- REGISTRAZIONE -->
+    <ng-container *ngIf="selectedTab==='register'">
+      <div class="container mb-5">
+        <div class="row justify-content-center">
+          <div class="col-12 col-md-6">
+            <div class="card p-4 shadow-sm">
+              <h3 class="mb-4">Registrati</h3>
+              <form (ngSubmit)="onRegister()" #regForm="ngForm" novalidate>
+                <div class="mb-3">
+                  <label>Nome</label>
+                  <input class="form-control" name="FirstName" placeholder="Inserisci nome"
+                    [(ngModel)]="model.FirstName" required>
+                </div>
+                <div class="mb-3">
+                  <label>Cognome</label>
+                  <input class="form-control" name="LastName" placeholder="Inserisci cognome"
+                    [(ngModel)]="model.LastName" required>
+                </div>
+
+                <div class="mb-3">
+                  <label>Email</label>
+                  <input type="email" class="form-control" name="EmailAddress" placeholder="Inserisci email"
+                    [(ngModel)]="model.EmailAddress" required>
+                </div>
+
+                <div class="mb-3">
+                  <label>Telefono</label>
+                  <input class="form-control" name="Phone" placeholder="Inserisci numero di telefono"
+                    [(ngModel)]="model.Phone" required>
+                </div>
+
+                <div class="mb-3">
+                  <label>Password</label>
+                  <div class="input-group">
+                    <input [type]="showRegisterPassword ? 'text' : 'password'" class="form-control" name="Password"
+                      placeholder="Inserisci password" [(ngModel)]="model.Password" (ngModelChange)="onPwdChange()"
+                      required>
+                    <button type="button" class="btn btn-outline-secondary"
+                      (click)="showRegisterPassword = !showRegisterPassword">
+                      <i class="bi" [ngClass]="showRegisterPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+                    </button>
+                  </div>
+                  <div *ngIf="pwdCriteriaVisible" class="text-danger mt-1">
+                    La password deve avere almeno 6 caratteri, <br>
+                    una maiuscola, una minuscola, un numero e un carattere speciale.
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label>Conferma password</label>
+                  <div class="input-group">
+                    <input [type]="showConfirmPassword ? 'text' : 'password'" class="form-control"
+                      name="ConfirmPassword" placeholder="Conferma password" [(ngModel)]="model.ConfirmPassword"
+                      required>
+                    <button type="button" class="btn btn-outline-secondary"
+                      (click)="showConfirmPassword = !showConfirmPassword">
+                      <i class="bi" [ngClass]="showConfirmPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- <div *ngIf="registerError" class="alert alert-danger">
+                  {{ registerError }}
+                </div> -->
+
+                <button class="btn btn-green w-100" type="submit" [disabled]="!canSubmitRegister">
+                  Registrati
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+  </div>
+</section>

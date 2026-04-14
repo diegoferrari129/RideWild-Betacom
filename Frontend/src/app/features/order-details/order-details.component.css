@@ -1,0 +1,26 @@
+.circle {
+    width: 75px;
+    height: 75px;
+    border: 1px solid grey;
+    border-radius: 50%;
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+    top: 20px;
+    left: 23px;
+}
+
+.productList > div {
+  border-bottom: 1px solid #CCC;
+}
+
+.productList div:last-child {
+  border: none;
+}
+
+img {
+  width: 100px;
+  height: auto;
+}

@@ -1,0 +1,101 @@
+<div class="container">
+  <app-go-back-button></app-go-back-button>
+  <div class="d-flex justify-content-between">
+    <div>
+      <h3 class="mb-1">Ordini</h3>
+      <p class="text-muted mb-2">Controlla la lista degli ordini</p>
+    </div>
+    <div>
+      <button class="btn btn-light" (click)="resetOrders()">
+        Ricarica gli ordini
+        <i class="bi bi-arrow-clockwise"></i>
+      </button>
+    </div>
+  </div>
+  <div class="my-2">
+    <form
+      class="d-flex"
+      role="search"
+      [formGroup]="form"
+      (ngSubmit)="SearchOrder()"
+    >
+      <input
+        class="form-control me-2"
+        type="search"
+        placeholder="Inserisci l'ID dell'ordine"
+        aria-label="Search"
+        formControlName="searchId"
+      />
+      <button
+        class="btn btn-success me-2"
+        type="submit"
+        [disabled]="this.form.invalid"
+      >
+        Cerca
+      </button>
+      </form>
+    @if (searchIdInvalid) {
+    <p class="text-danger">L'ID dev'essere di 5 cifre</p>
+    }
+  </div>
+
+  @if (isLoading) {
+  <app-spinner></app-spinner>
+  } @else { @if(ordersList.length != 0){
+  <table class="table table-striped align-middle">
+    <thead>
+      <tr scope="row">
+        <th scope="col">Id</th>
+        <th scope="col">Data</th>
+        <th scope="col">Totale</th>
+        <th scope="col">Stato</th>
+        <th scope="col" class="text-end"></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (order of ordersList; track $index) {
+      <tr>
+        <td>{{ order.salesOrderId }}</td>
+        <td>{{ order.orderDate | date : "dd/MM/yy" }}</td>
+        <td>{{ order.totalDue | currency }}</td>
+        <td>
+          @if (order.status.toUpperCase() === 'CANCELLATO' ||
+          order.status.toUpperCase() === 'RIFIUTATO') {
+          <span class="badge text-bg-danger">{{ order.status }}</span>
+          } @else {
+          <span class="badge text-bg-success">{{ order.status }}</span>
+          }
+        </td>
+        <td class="text-end">
+          <a [routerLink]="['/admin-dashboard/orders', order.salesOrderId]"
+            ><button class="btn btn-light">Dettagli</button></a
+          >
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+  } @else {
+  <p>Nessun ordine</p>
+  }
+
+  <div class="d-flex py-5 justify-content-center align-items-center">
+    <button
+      class="btn btn-success"
+      (click)="onPageChange(currentPage - 1)"
+      [disabled]="currentPage === 1"
+    >
+      Indietro
+    </button>
+    <span class="px-5">{{ currentPage }} di {{ getTotalPages() }}</span>
+    <button
+      class="btn btn-success"
+      (click)="onPageChange(currentPage + 1)"
+      [disabled]="currentPage === getTotalPages()"
+    >
+      Avanti
+    </button>
+  </div>
+
+  }
+</div>

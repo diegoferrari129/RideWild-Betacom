@@ -1,0 +1,96 @@
+<div class="container">
+  <app-go-back-button></app-go-back-button>
+  <div class="d-flex justify-content-between">
+    <div>
+      <h3 class="mb-1">Customer</h3>
+      <p class="text-muted mb-2">Controlla la lista dei clienti</p>
+    </div>
+  </div>
+  <div class="my-2">
+    <form [formGroup]="filterForm" class="mb-3">
+    <input type="text" class="form-control" formControlName="search" placeholder="Filtra per testo">
+    </form>
+  </div>
+
+  <table class="table table-striped align-middle">
+    <thead>
+      <tr scope="row">
+        <th scope="col" (click)="sortBy('firstname')">
+          Nome
+            <i 
+              class="bi" 
+              [ngClass]="{
+                'bi-caret-up-fill': sortField === 'firstname' && sortDirection === 'asc',
+                'bi-caret-down-fill': sortField === 'firstname' && sortDirection === 'desc',
+                'bi-caret-up': sortField !== 'firstname'
+              }"
+              [style.opacity]="sortField === 'firstname' ? '1' : '0.3'"
+            ></i>
+        </th>
+        <th scope="col" (click)="sortBy('lastname')">
+          Cognome
+          <i 
+            class="bi" 
+            [ngClass]="{
+              'bi-caret-up-fill': sortField === 'lastname' && sortDirection === 'asc',
+              'bi-caret-down-fill': sortField === 'lastname' && sortDirection === 'desc',
+              'bi-caret-up': sortField !== 'lastname'
+            }"
+            [style.opacity]="sortField === 'lastname' ? '1' : '0.3'"
+          ></i>
+        </th>
+        <th scope="col">Indirizzo</th>
+        <th scope="col">Città</th>
+        <th scope="col">Regione</th>
+        <th scope="col">Stato</th>
+      </tr>
+    </thead>
+
+    <tbody>
+  @for (item of paginatedData; track $index) {
+    @if (item.addresses.length > 0) {
+      @for (address of item.addresses; track $index) {
+        <tr>
+          <td>{{ item.firstName }}</td>
+          <td>{{ item.lastName }}</td>
+          <td>{{ address.addressLine1 }}</td>
+          <td>{{ address.city }}</td>
+          <td>{{ address.countryRegion }}</td>
+          <td>{{ address.stateProvince }}</td>
+        </tr>
+      }
+    } @else {
+      <tr>
+        <td>{{ item.firstName }}</td>
+        <td>{{ item.lastName }}</td>
+        <td colspan="4">
+          <span class="badge text-bg-warning">Nessun indirizzo disponibile</span>
+        </td>
+      </tr>
+    }
+  }
+</tbody>
+
+
+  </table>
+
+
+  <div class="d-flex py-5 justify-content-center align-items-center">
+    <button
+      class="btn btn-success"
+      (click)="prevPage()"
+      [disabled]="page === 1"
+    >
+      Indietro
+    </button>
+    <span class="px-5">{{ page }}  di {{ maxPage }}</span>
+    <button
+      class="btn btn-success"
+      (click)="nextPage()"
+      [disabled]="page === maxPage"
+    >
+      Avanti
+    </button>
+  </div>
+
+</div>

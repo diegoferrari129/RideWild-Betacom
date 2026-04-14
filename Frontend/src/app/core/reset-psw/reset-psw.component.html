@@ -1,0 +1,31 @@
+<section>
+  <div class=" recover-box pt-2" *ngIf="token">
+    <div class="row">
+      <div class="col-12">
+        <h3>Reimposta Password</h3>
+        <p>Inserisci una nuova password per il tuo account.</p>
+        <form (ngSubmit)="onSubmit()" novalidate>
+          <div class="mb-3">
+            <label>Nuova password</label>
+            <input type="password" id="password" class="form-control" name="password" [(ngModel)]="newPassword"
+              placeholder="Inserisci la password" #passwordInput="ngModel" required
+              (ngModelChange)="validatePassword()" />
+            <div *ngIf="!passwordValid && newPassword" style="color: red;">
+              La password deve essere lunga 6 caratteri e avere una lettera maiuscola, una minuscola,
+              un numero e un carattere speciale
+            </div>
+          </div>
+          <div class="mb-3">
+            <label>Conferma password</label>
+            <input type="password" class="form-control" [(ngModel)]="confirmPassword" placeholder="Conferma Password"
+              name="confirmPassword" required />
+          </div>
+          <!-- <div *ngIf="errorMessage" class="alert alert-danger">
+            {{ errorMessage }}
+          </div> -->
+          <button type="submit" [disabled]="!passwordValid" class="btn btn-green">Aggiorna Password</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,122 @@
+<div *ngIf="loading" id="loader">
+    <div class="loading-message">
+        <div>
+            <p>LOADING</p>
+        </div>
+        <div class="loader">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div class="bike">
+
+        <div class="bike__frame">
+            <div class="tube tube--top"></div>
+            <div class="tube tube--down"></div>
+            <div class="tube tube--head"></div>
+            <div class="tube tube--seat"></div>
+            <div class="tube tube--seat-stays"></div>
+            <div class="tube tube--chain-stays"></div>
+        </div>
+
+        <div class="bike__fork"></div>
+
+        <div class="bike__wheel bike__wheel--front">
+            <div class="spoke spoke--1"></div>
+            <div class="spoke spoke--2"></div>
+            <div class="spoke spoke--3"></div>
+            <div class="spoke spoke--4"></div>
+            <div class="spoke spoke--5"></div>
+            <div class="spoke spoke--6"></div>
+            <div class="spoke spoke--7"></div>
+            <div class="spoke spoke--8"></div>
+            <div class="spoke spoke--9"></div>
+            <div class="spoke spoke--10"></div>
+        </div>
+
+        <div class="bike__wheel bike__wheel--back">
+            <div class="cassette"></div>
+
+            <div class="spoke spoke--1"></div>
+            <div class="spoke spoke--2"></div>
+            <div class="spoke spoke--3"></div>
+            <div class="spoke spoke--4"></div>
+            <div class="spoke spoke--5"></div>
+            <div class="spoke spoke--6"></div>
+            <div class="spoke spoke--7"></div>
+            <div class="spoke spoke--8"></div>
+            <div class="spoke spoke--9"></div>
+            <div class="spoke spoke--10"></div>
+        </div>
+
+
+        <div class="bike__headset"></div>
+
+        <div class="bike__stem"></div>
+
+        <div class="bike__handlebar">
+
+            <div class="grip"></div>
+
+            <div class="break">
+                <div class="break__lever"></div>
+            </div>
+        </div>
+
+        <div class="bike__seatpost"></div>
+        <div class="bike__seat"></div>
+
+        <div class="bike__chain"></div>
+
+        <div class="bike__crankset bike__crankset--left">
+            <div class="crank">
+                <div class="pedal"></div>
+            </div>
+        </div>
+
+        <div class="bike__crankset bike__crankset--right">
+            <div class="crank">
+                <div class="pedal"></div>
+            </div>
+
+            <div class="chairings">
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div class="container py-5" *ngIf="!loading">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm">
+                <img [src]="'data:image/png;base64,' + product.thumbNailPhotoBase64" class="card-img-top"
+                    alt="{{ product.name }}">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h1 class="card-title">{{ product.name }}</h1>
+                    <p class="card-text text-muted">{{ product.productCategory?.name }}</p>
+                    <p class="h4">{{ product.listPrice | currency:'EUR' }}</p>
+
+                    <ul class="list-unstyled mt-3">
+                        <li *ngIf="product.color"><strong>Colore:</strong> {{ product.color }}</li>
+                        <li *ngIf="product.size"><strong>Grandezza:</strong> {{ product.size }}</li>
+                        <li *ngIf="product.weight"><strong>Peso:</strong> {{ product.weight }} g</li>
+                        <li *ngIf="product.productNumber"><strong>Codice prodotto:</strong> {{ product.productNumber }}
+                        </li>
+                    </ul>
+
+                    <button class="btn btn-success btn-lg w-100 mt-4" (click)="addToCart(product.productId)">
+                        Aggiungi al carrello
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <app-review ></app-review>
+    </div>
+</div>

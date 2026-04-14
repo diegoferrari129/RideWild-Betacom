@@ -1,0 +1,69 @@
+<!-- Button trigger modal -->
+<div class="d-grid">
+  <button
+    class="btn btn-success"
+    data-bs-toggle="modal"
+    data-bs-target="#statusModal"
+  >
+    Modifica stato
+  </button>
+</div>
+
+<!-- Modal -->
+<form [formGroup]="statusForm" (ngSubmit)="UpdateStatus()">
+  <div
+    class="modal fade"
+    id="statusModal"
+    tabindex="-1"
+    aria-labelledby="statusModalLabel"
+  >
+    <div class="modal-dialog" data-bs-target="#deleteModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="statusModalLabel">
+            Ordine: {{ orderId() }}
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-dismiss="modal"
+            (click)="CloseModal()"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <select
+            class="form-select"
+            [formControl]="statusForm.controls.statusCode"
+          >
+            @for (status of availableStatus; track status.value) {
+              <option
+              [value]="status.value"
+            >
+              {{ status.label }}
+            </option>
+            }
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="CloseModal()"
+            data-dismiss="modal"
+          >
+            Chiudi
+          </button>
+          <button
+            (click)="UpdateStatus()"
+            [disabled]="statusForm.invalid"
+            type="button"
+            class="btn btn-success"
+          >
+            Salva
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

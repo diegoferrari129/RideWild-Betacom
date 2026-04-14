@@ -1,0 +1,26 @@
+.nav-link.active {
+  background-color: #198754;
+  font-weight: bold;
+}   
+a {
+  color: black;
+}
+
+a.hover {
+  color: #198754;
+}
+
+.nav.hover .nav-link:hover {
+  background-color: #198754;
+}
+
+
+.nav-pills .nav-link:hover {
+  background-color: #e6f5ec !important; 
+  color: #198754 !important;   
+}
+
+.nav-pills .nav-link.active {
+  background-color: #198754 !important; 
+  color: #fff !important;           
+}

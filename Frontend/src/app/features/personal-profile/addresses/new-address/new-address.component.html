@@ -1,0 +1,67 @@
+<ng-template #content let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">{{ isEditMode ? 'Modifica Indirizzo' : 'Nuovo Indirizzo' }}</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<form [formGroup]="form">
+        <div class="mb-3">
+                <label for="addressType" class="form-label">Tipo indirizzo*</label>
+                <input formControlName="addressType" type="text" class="form-control" id="addressType">
+                <div *ngIf="form.get('addressType')?.touched && form.get('addressType')?.errors" class="text-danger small">
+                    <div *ngIf="form.get('addressType')?.errors?.['required']">Questo campo è richiesto.</div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="addressLine1" class="form-label">Indirizzo 1*</label>
+                <input formControlName="addressLine1" type="text" class="form-control" id="addressLine1">
+                <div *ngIf="form.get('addressLine1')?.touched && form.get('addressLine1')?.errors" class="text-danger small">
+                    <div *ngIf="form.get('addressLine1')?.errors?.['required']">Questo campo è richiesto.</div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="addressLine2" class="form-label">Indirizzo 2</label>
+                <input formControlName="addressLine2" type="text" class="form-control" id="addressLine2">
+            </div>
+            <div class="mb-3">
+                <label for="city" class="form-label">Città*</label>
+                <input formControlName="city" type="text" class="form-control" id="city">
+                <div *ngIf="form.get('city')?.touched && form.get('city')?.errors" class="text-danger small">
+                    <div *ngIf="form.get('city')?.errors?.['required']">Questo campo è richiesto.</div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="postalCode" class="form-label">Codice Postale*</label>
+                <input formControlName="postalCode" type="text" class="form-control" id="postalCode">
+                <div *ngIf="form.get('postalCode')?.touched && form.get('postalCode')?.errors" class="text-danger small">
+                    <div *ngIf="form.get('postalCode')?.errors?.['required']">Questo campo è richiesto.</div>
+                    <div *ngIf="form.get('postalCode')?.errors?.['pattern']">Inserisci un CAP valido (es. 00100 o 00100-1234).</div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="countryRegion" class="form-label">Regione*</label>
+                <input formControlName="countryRegion" type="text" class="form-control" id="countryRegion">
+                <div *ngIf="form.get('countryRegion')?.touched && form.get('countryRegion')?.errors" class="text-danger small">
+                    <div *ngIf="form.get('countryRegion')?.errors?.['required']">Questo campo è richiesto.</div>
+                </div>
+            </div>  
+            <div class="mb-3">
+                <label for="stateProvince" class="form-label">Stato*</label>
+                <input formControlName="stateProvince" type="text" class="form-control" id="stateProvince">
+                <div *ngIf="form.get('stateProvince')?.touched && form.get('stateProvince')?.errors" class="text-danger small">
+                    <div *ngIf="form.get('stateProvince')?.errors?.['required']">Questo campo è richiesto.</div>
+                </div>
+            </div>
+             @if(form.invalid && form.touched) {
+            <p class="text-danger small">
+                Controlla i campi 
+            </p>
+             }  
+        </form>
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-secondary" (click)="onSubmit(modal)">Salva</button>
+	</div>
+</ng-template>
+<button type="button" [class]="buttonClass" (click)="open(content)">{{buttonName}}</button>

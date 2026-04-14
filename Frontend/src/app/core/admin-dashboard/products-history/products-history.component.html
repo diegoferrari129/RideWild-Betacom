@@ -1,0 +1,48 @@
+<div class="container-lg py-5">
+  <app-go-back-button></app-go-back-button>
+  <div class="d-flex justify-content-between align-items-center flex-wrap">
+    <div>
+      <h3 class="mb-1">Prodotti</h3>
+      <p class="text-muted mb-2">Controlla la lista dei prodotti</p>
+    </div>
+    <div>
+      <app-modal-add-products (productAdded)="onProductAdded()"></app-modal-add-products>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="table-responsive">
+        <table class="table table-hover table-striped align-middle">
+          <thead>
+            <tr>
+              <th>ID Prodotto</th>
+              <th>Nome</th>
+              <th class="d-none d-md-table-cell">Categoria</th>
+              <th class="d-none d-md-table-cell">Prezzo</th>
+              <th class="d-none d-md-table-cell">Data Creazione</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of products" id="clickable-row"
+              [routerLink]="['/admin-dashboard/products-history/product-admin-details', product.productId]">
+              <td>{{ product.productId }}</td>
+              <td>{{ product.name }}</td>
+              <td class="d-none d-md-table-cell">{{ product.productCategory?.name }}</td>
+              <td class="d-none d-md-table-cell">{{ product.listPrice | currency }}</td>
+              <td class="d-none d-md-table-cell">{{ product.modifiedDate | date:'short' }}</td>
+            </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="d-flex py-5 justify-content-center align-items-center">
+  <button class="btn btn-success" (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1">
+    Indietro
+  </button>
+  <span class="px-5">{{ currentPage }} di {{ getTotalPages() }}</span>
+  <button class="btn btn-success" (click)="onPageChange(currentPage + 1)" [disabled]="currentPage === getTotalPages()">
+    Avanti
+  </button>
+</div>

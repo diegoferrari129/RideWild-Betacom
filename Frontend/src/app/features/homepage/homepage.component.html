@@ -1,0 +1,94 @@
+<div class="hero-section container-fluid py-5 bg-light custom-gradient p-4 text-white">
+  <div class="row align-items-center">
+    <div class="col-lg-6 text-start text-lg-start px-5">
+      <h1 class="display-4 fw-bold">Benvenuto in<br>RideWild</h1>
+      <p class="lead text-white mt-3 mb-4">
+        La tua avventura inizia qui. <br>
+        Esplora la nostra vasta gamma di biciclette e accessori.
+      </p>
+      <div class="d-flex flex-column flex-sm-row gap-3 justify-content-md-start justify-content-lg-start">
+        <a class="btn bg-dark btn-lg mb-sm-4" routerLink="/products">Shop Bikes</a>
+        <!-- <a class="btn bg-transparent text-white btn-outline-light btn-lg mb-4" routerLink="/">Shop Parts</a> -->
+      </div>
+    </div>
+    <div class="col-lg-6 text-center px-5">
+      <img src="https://images.unsplash.com/photo-1541625602330-2277a4c46182?w=1200&auto=format&fit=crop"
+        class="img-fluid rounded shadow-sm" alt="Bici su strada">
+    </div>
+  </div>
+</div>
+
+
+<section class="text-center bg-green-50-custom">
+  <div class="container bg-green-50-custom ">
+    <h2 class=" fw-bold pt-3 pb-2">Vieni alla scoperta dei nostri prodotti</h2>
+    <div class="d-flex justify-content-center gap-3 auth-tabs text-center my-3">
+      <div>
+        <button class="btn-custom" [class.active]="selectTab === 'arrivals'" (click)="selectTab = 'arrivals'">Nuovi
+          arrivi</button>
+      </div>
+      <div>
+        <button class="btn-custom" [class.active]="selectTab === 'bestseller'" (click)="selectTab = 'bestseller'">Più
+          venduti</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cards-container">
+    <ng-container *ngIf="selectTab === 'bestseller'">
+      <div *ngFor="let item of bestsellers">
+        <div class="card border border-success border-2 rounded-4 border-opacity-10 h-100 shadow-sm">
+          <img class="rounded-4" *ngIf="item.productImage" [src]="'data:image/png;base64,' + item.productImage"
+            alt="Thumbnail" />
+          <div class="card-body d-flex flex-column">
+            <div class="mb-auto">
+
+              <p class="card-title m-auto text-start"><strong>{{ item.productName }}</strong></p>
+            </div>
+            <div class="mt-auto d-flex ">
+
+              <p class="card-text ">Prezzo: <strong>{{ item.productPrice }}$</strong></p>
+            </div>
+            <div class="mt-auto d-flex justify-content-between align-items-center">
+              <button class="btn btn-dark flex-fill me-2 view-details"
+                [routerLink]="['/products',item.productId]">Dettagli</button>
+              <button class="btn btn-success border cart-button" (click)="addToCart(item.productId)"><i
+                  class="bi bi-bag"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="selectTab === 'arrivals'">
+      <div *ngFor="let items of arrivals">
+        <div class="card border border-success border-2 rounded-4 border-opacity-10 h-100 shadow-sm">
+          <img class="rounded-4" *ngIf="items.thumbNailPhotoBase64"
+            [src]="'data:image/png;base64,' + items.thumbNailPhotoBase64" alt="Thumbnail" />
+          <div class="card-body d-flex flex-column">
+            <p class="card-title m-auto"><strong>{{ items.name }}</strong></p>
+            <p class="card-text mt-auto">Prezzo: <strong>{{ items.listPrice }}$ </strong></p>
+            <div class="mt-auto d-flex justify-content-between align-items-center">
+              <button class="btn btn-dark flex-fill me-2 view-details"
+                [routerLink]="['/products',items.productId]">Dettagli</button>
+              <button class="btn btn-success border cart-button" (click)="addToCart(items.productId)"><i
+                  class="bi bi-bag"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="text-center py-4">
+    <a class="btn btn-outline-dark bg-dark" routerLink="/products">Vedi tutti i prodotti</a>
+  </div>
+  <div class="mt-4 banner d-flex justify-content-center align-items-center">
+    <div class="container banner-content text-white">
+      <div class="overlay-bg">
+        <h1>Scopri il Compagno Perfetto <br> per i Tuoi Sentieri</h1>
+        <h6>Esplora la nostra collezione di mountain bike premium progettate per ogni terreno e stile di guida.</h6>
+      </div>
+    </div>
+  </div>
+</section>

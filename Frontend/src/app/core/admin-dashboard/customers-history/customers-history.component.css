@@ -1,0 +1,15 @@
+.custom-header-row {
+  background-color: #198754 !important;
+  color: white !important;
+}
+
+
+@media screen and (max-width: 400px) {
+    table {
+    font-size: 12px;
+    }
+
+    table button {
+        font-size: 12px;
+    }
+}

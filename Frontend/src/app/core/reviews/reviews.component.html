@@ -1,0 +1,64 @@
+<section class="container">
+    <div class="row">
+
+        <div class="card my-4 p-3 shadow-sm" *ngIf="isUser">
+            <h4 class="mb-3">Scrivi una recensione</h4>
+
+            <form (ngSubmit)="submitReview()" >
+                <label>Nome:</label>
+                <h5 *ngIf="isUser">{{ customer?.firstName +' '+customer?.lastName}}</h5>
+
+                <div class="mb-3">
+                    <label for="title" class="form-label">Titolo</label>
+                    <input type="text" id="title" class="form-control" [(ngModel)]="newReview.Title" name="title"
+                        required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="text" class="form-label">Testo</label>
+                    <textarea id="text" rows="4" class="form-control" [(ngModel)]="newReview.Text" name="text"
+                        required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="rating" class="form-label">Valutazione (1-5)</label>
+                    <input type="number" id="rating" class="form-control" [(ngModel)]="newReview.Rating" name="rating"
+                        min="0" max="5" step="1" required>
+                </div>
+
+                <button type="submit" class="btn btn-success">Invia recensione</button>
+            </form>
+        </div>
+
+        <div class="col">
+            <h3 class="mt-5 text-center">Recensioni</h3>
+            <div *ngIf="reviews.length === 0">Nessuna recensione disponibile.</div>
+            <div *ngFor="let review of reviews" class="card mt-3 p-3 shadow-sm">
+                <div class="d-flex align-items-center">
+                    <div class=" rounded-circle bg-success justify-content-center text-white d-flex align-items-center"
+                        style="width: 30px; height: 30px; font-size: 24px;">
+                        <i class="bi bi-person"></i>
+                    </div>
+                    <strong class="p-3">{{ review.fullName }}</strong>
+                </div>
+                <div class="d-flex">
+                    <div class="text-warning mb-1">
+                        <ng-container *ngFor="let star of [].constructor(review.rating)">
+                            ★
+                        </ng-container>
+                    </div>
+                    <strong class="px-3">{{ review.title }}</strong>
+                </div>
+                <div>
+                    <p class="text-muted">Recensito il: <small>{{ review.createdOn | date:'short' }}</small></p>
+
+                </div>
+                <p>{{ review.text }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+  {{ errorMessage }}
+  </div> -->

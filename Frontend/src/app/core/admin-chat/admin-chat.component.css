@@ -1,0 +1,8 @@
+.table-hover-row:hover {
+  background-color: #f8f9fa; /* colore neutro grigio chiaro */
+}
+.table-hover tbody tr:hover {
+  background-color: #69b88a; /* colore neutro */
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}

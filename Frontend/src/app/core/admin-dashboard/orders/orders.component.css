@@ -1,0 +1,10 @@
+
+@media screen and (max-width: 400px) {
+    table {
+    font-size: 12px;
+    }
+
+    table button {
+        font-size: 12px;
+    }
+}

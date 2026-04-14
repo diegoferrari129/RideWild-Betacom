@@ -1,0 +1,59 @@
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <div class="bg-white p-3 rounded shadow-sm">
+                <div class="text-center mb-4" *ngIf="customer">
+                    <div class="rounded-circle bg-success text-white d-inline-flex align-items-center justify-content-center mb-2" style="width: 60px; height: 60px; font-size: 24px;">
+                        {{ customer.firstName.charAt(0) +''+customer!.lastName.charAt(0) }}
+                    </div>
+                    <h5>{{ customer.firstName +' '+customer.lastName}}</h5>
+                    <p class="text-muted small">{{customer.companyName }}</p>
+                </div>
+                <ul class="nav nav-pills flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="./profile" routerLinkActive="active">
+                            <i class="fas fa-user mr-2"></i>Informazioni Personali
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="./order-history" routerLinkActive="active">
+                            <i class="fas fa-history mr-2"></i>Storico Ordini
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           routerLink="./addresses"
+                           routerLinkActive="active">
+                            <i class="fas fa-map-marker-alt mr-2"></i>Indirizzi
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           routerLink="./change-security"
+                           routerLinkActive="active">
+                            <i class="fas fa-credit-card mr-2"></i>Privacy e Sicurezza
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           routerLink="./threads"
+                           routerLinkActive="active">
+                            <i class="fas fa-credit-card mr-2"></i>Storico Chat
+                        </a>
+                    </li>
+                </ul>
+                <button (click)="logout()" class="btn btn-outline-secondary btn-block mt-4">
+                    <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="bg-white p-3 p-md-4 rounded shadow-sm">
+                <router-outlet ></router-outlet>
+            </div>
+        </div>
+    </div>
+</div>

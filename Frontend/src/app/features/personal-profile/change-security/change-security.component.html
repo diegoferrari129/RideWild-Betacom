@@ -1,0 +1,212 @@
+<div>
+  <h3>Sicurezza</h3>
+
+  <p class="text-muted">Modifica contatti</p>
+  <hr class="my-4">
+  <!--
+  @if (this.modified) {
+  <div class="alert alert-success mt-3" role="alert">
+    Dati aggiornati.
+  </div>
+  }
+
+  @if (this.passwordChangeError) {
+  <div class="alert alert-danger mt-3" role="alert">
+    {{ this.passwordChangeError }}
+  </div>
+  }-->
+  <form *ngIf="emailForm && securityCustomer" [formGroup]="emailForm" (ngSubmit)="onEmailSubmit()">
+
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label for="profileEmail" class="form-label">Email</label>
+        <input type="email" class="form-control" id="profileEmail" formControlName="email"
+          [class.is-invalid]="emailForm.get('email')?.invalid && emailForm.get('email')?.touched">
+        @if (emailForm.get('email')?.invalid && emailForm.get('email')?.touched) {
+        <div class="text-danger mt-1">
+          @if (emailForm.get('email')?.errors?.['required']) {
+          <small>L'email è obbligatoria.</small>
+          }
+          @if (emailForm.get('email')?.errors?.['email']) {
+          <small>Inserisci un indirizzo email valido.</small>
+          }
+        </div>
+        }
+
+        @if (securityCustomer && !emailForm.get('email')?.invalid) { @if (securityCustomer.isEmailConfirmed) {
+        <div class="text-success mt-1">
+          <small><i class="bi bi-check-circle-fill"></i> Email confermata.</small>
+        </div>
+        } @else {
+        <div class="text-danger mt-1">
+          <small><i class="bi bi-exclamation-triangle-fill"></i> Email non confermata.
+            <button type="button" (click)="richiediConfermaEmail()"
+              class="btn btn-link text-danger p-0 ms-1 align-baseline"
+              style="text-decoration: underline; font-size: inherit;">
+              Conferma Email
+            </button>
+          </small>
+        </div>
+        }
+        }
+      </div>
+
+
+    </div>
+
+    <div class="row g-3 mt-3">
+      <div class="col">
+        <label class="form-label d-block mb-2">Autenticazione a Due Fattori (MFA)</label>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" role="switch" id="mfaSwitchInForm"
+            formControlName="mfaEnabled">
+          <label class="form-check-label" for="mfaSwitchInForm">
+            @if (emailForm.get('mfaEnabled')?.value) {
+            Attivata
+            } @else {
+            Disattivata
+            }
+          </label>
+        </div>
+        @if (securityCustomer.isEmailConfirmed && !emailForm.get('mfaEnabled')?.value) {
+        <small class="form-text text-muted d-block mt-1">
+          Abilita MFA per una maggiore sicurezza e salva le modifiche.
+        </small>
+        }
+        @if (securityCustomer.isEmailConfirmed && emailForm.get('mfaEnabled')?.value) {
+        <small class="form-text text-muted d-block mt-1">
+          La MFA è attiva. Per disattivarla, deseleziona l'opzione e salva le modifiche.
+        </small>
+        }
+        @if(!securityCustomer.isEmailConfirmed) {
+        <small class="form-text text-danger d-block mt-1">
+          Per abilitare la MFA, devi prima confermare la tua email.
+        </small>
+        }
+      </div>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-success">Aggiorna dati</button>
+  </form>
+  <br><br>
+  <p class="text-muted">Cambia la tua password</p>
+  <hr class="my-4">
+
+  <!--
+  @if (this.modifiedPassword) {
+  <div class="alert alert-success mt-3" role="alert">
+    Password modificata con successo!
+  </div>
+  }
+
+  @if (this.passwordChangeError) {
+  <div class="alert alert-danger mt-3" role="alert">
+    {{ this.passwordChangeError }}
+  </div>
+  }-->
+  <form [formGroup]="passwordForm" (ngSubmit)="onPasswordSubmit()">
+
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label for="profileOldPassword" class="form-label">Password attuale</label>
+        <div class="input-group">
+          <input [type]="showOldPassword ? 'text' : 'password'" class="form-control"
+            [class.is-invalid]="passwordForm.get('oldPassword')?.invalid && passwordForm.get('oldPassword')?.touched"
+            id="profileOldPassword" formControlName="oldPassword">
+          <span class="input-group-text" (click)="toggleOldPassword()" style="cursor: pointer;">
+            @if (!showOldPassword) {
+            <i class="bi bi-eye"></i>
+            } @else {
+            <i class="bi bi-eye-slash"></i>
+            }
+          </span>
+        </div>
+        @if (passwordForm.get('oldPassword')?.invalid && passwordForm.get('oldPassword')?.touched) {
+        <div class="text-danger mt-1">
+          @if (passwordForm.get('oldPassword')?.errors?.['required']) {
+          <small>La password attuale è obbligatoria.</small>
+          }
+          @if (passwordForm.get('oldPassword')?.errors?.['minlength']) {
+          <small>La password deve essere di almeno 6 caratteri.</small>
+          }
+        </div>
+        }
+      </div>
+    </div>
+
+    <div class="row g-3 mt-3">
+      <div class="col-md-6">
+        <label for="profileNewPassword" class="form-label">Nuova password</label>
+        <div class="input-group">
+          <input [type]="showNewPassword ? 'text' : 'password'" class="form-control"
+            [class.is-invalid]="passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched"
+            id="profileNewPassword" formControlName="newPassword">
+          <span class="input-group-text" (click)="toggleNewPassword()" style="cursor: pointer;">
+            @if (!showNewPassword) {
+            <i class="bi bi-eye"></i>
+            } @else {
+            <i class="bi bi-eye-slash"></i>
+            }
+          </span>
+        </div>
+        @if (passwordForm.get('newPassword')?.invalid &&
+        (passwordForm.get('newPassword')?.touched || passwordForm.get('newPassword')?.dirty)) {
+        <div class="text-danger mt-1">
+          @if (passwordForm.get('newPassword')?.errors?.['required']) {
+          <small>La nuova password è obbligatoria.</small><br>
+          }
+          @if (passwordForm.get('newPassword')?.errors?.['minlength']) {
+          <small>La nuova password deve essere di almeno 6 caratteri.</small><br>
+          }
+          @if (passwordForm.get('newPassword')?.errors?.['passwordStrength']?.['requiresUpperCase']) {
+          <small>Deve contenere almeno una lettera maiuscola.</small><br>
+          }
+          @if (passwordForm.get('newPassword')?.errors?.['passwordStrength']?.['requiresNumber']) {
+          <small>Deve contenere almeno un numero.</small><br>
+          }
+          @if (passwordForm.get('newPassword')?.errors?.['passwordStrength']?.['requiresSpecialChar']) {
+          <small>Deve contenere almeno un carattere speciale (es. !#$%^&*).</small><br>
+          }
+        </div>
+        }
+      </div>
+
+      <div class="col-md-6">
+        <label for="profileConfirmNewPassword" class="form-label">Conferma nuova password</label>
+        <div class="input-group">
+          <input [type]="showConfirmPassword ? 'text' : 'password'" class="form-control"
+            [class.is-invalid]="(passwordForm.get('confirmPassword')?.invalid && passwordForm.get('confirmPassword')?.touched) || (passwordForm.errors?.['passwordMismatch'] && passwordForm.get('confirmPassword')?.touched)"
+            id="profileConfirmNewPassword" formControlName="confirmPassword">
+          <span class="input-group-text" (click)="toggleConfirmPassword()" style="cursor: pointer;">
+            @if (!showConfirmPassword) {
+            <i class="bi bi-eye"></i>
+            } @else {
+            <i class="bi bi-eye-slash"></i>
+            }
+          </span>
+        </div>
+        @if (passwordForm.get('confirmPassword')?.invalid && passwordForm.get('confirmPassword')?.touched) {
+        <div class="text-danger mt-1">
+          @if (passwordForm.get('confirmPassword')?.errors?.['required']) {
+          <small>La conferma password è obbligatoria.</small>
+          }
+          @if (passwordForm.get('confirmPassword')?.errors?.['minlength']) {
+          <small>La conferma password deve essere di almeno 6 caratteri.</small>
+          }
+        </div>
+        }
+      </div>
+    </div>
+
+    @if (passwordForm.errors?.['passwordMismatch'] && (passwordForm.get('newPassword')?.touched ||
+    passwordForm.get('confirmPassword')?.touched) ) {
+    <div class="alert alert-danger mt-3" role="alert">
+      Le nuove password non coincidono.
+    </div>
+    }
+
+    <br>
+    <button type="submit" class="btn btn-success">Cambia password</button>
+  </form>
+
+</div>

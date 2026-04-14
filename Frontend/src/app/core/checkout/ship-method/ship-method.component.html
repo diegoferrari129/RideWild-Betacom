@@ -1,0 +1,11 @@
+<div class="card my-3" [formGroup]="form">
+    <div class="card-body">
+        <h3>Metodo di spedizione</h3>
+        <div class="form-floating">
+        <select #ships formControlName="shipMethod" class="form-select" (change)="onSelectShipMethod(ships.value)">
+            <option selected="selected" [value]="5" >Spedizione standard: 5-10 gg lavorativi | 5€</option>
+            <option [value]="10">Spedizione veloce: 2-3 gg lavorativi | 10€</option>
+        </select>
+        <label for="floatingSelect">Seleziona il metodo di spedizione</label>
+    </div>
+</div>

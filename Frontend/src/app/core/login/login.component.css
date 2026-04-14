@@ -1,0 +1,43 @@
+.auth-tabs {
+  /* display: flex; */
+  /* background-color: #f1f5f9; */
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.btn-green{
+  background-color: #013220df;
+  color: white;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: bold;
+  /* border: none; */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-custom{
+  border: 0;
+  background-color: #ffffff;
+  font-weight:bolder;
+}
+.btn-custom.active {
+  background-color: #ffffff;
+  border-bottom: 2px solid #013220df;
+  color: #013220df;
+}
+
+.text-color-password{
+  color: red !important;
+}
+
+.hover-cust{
+  color: black;
+  transition: color 0.3s ease;
+}
+
+
+.hover-cust:hover{
+  color: green
+}

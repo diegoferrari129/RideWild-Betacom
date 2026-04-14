@@ -1,0 +1,18 @@
+<div class="card my-3" [formGroup]="form">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center py-2">
+            <div>
+                <h3>Indirizzo di fatturazione</h3>
+            </div>
+            <div>
+                <app-new-address [buttonClass]="'btn btn-success'"></app-new-address>
+            </div>
+        </div>
+        <div class="form-floating">
+            <select formControlName="billAddress" class="form-select">
+                <option [value]="a.addressId" *ngFor="let a of listOfAddresses">{{a.addressType}}: {{a.addressLine1}}, {{a.city}}, {{a.postalCode}}, {{a.countryRegion}}, {{a.stateProvince}}</option>
+            </select>
+            <label for="floatingSelect">Seleziona l'indirizzo di spedizione</label>
+        </div>
+    </div>
+</div>

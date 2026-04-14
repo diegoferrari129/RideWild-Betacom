@@ -1,0 +1,50 @@
+<div *ngIf="product">
+    <div class="container-lg py-5">
+        <app-go-back-button></app-go-back-button>
+        <div class="d-flex justify-content-center align-items-center">
+            <div class="container py-4">
+                <div class="card shadow-lg border-0">
+                    <div class="row g-0 align-items-center">
+                        <div class="col-md-4 text-center p-4">
+                            <img [src]="product.thumbNailPhotoBase64 ? 'data:image/png;base64,' + product.thumbNailPhotoBase64 : 'assets/no-image.png'"
+                                alt="Immagine del prodotto" class="img-fluid rounded shadow-lg">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h2 class="card-title mb-3">{{ product.name }}</h2>
+                                <h6 class="text-muted mb-4">ID: {{ product.productId }} | Codice: {{
+                                    product.productNumber
+                                    }}
+                                </h6>
+                                <div class="row mb-2">
+                                    <div class="col-6">
+                                        <p><strong>Categoria:</strong> {{ product.productCategory?.name || 'N/A' }}</p>
+                                        <p><strong>Prezzo:</strong> <span class="badge bg-success fs-6">{{
+                                                product?.standardCost | currency }}</span></p>
+                                        <p><strong>Listino:</strong> <span class="badge bg-secondary fs-6">{{
+                                                product?.listPrice | currency }}</span></p>
+                                    </div>
+                                    <div class="col-6">
+                                        <p><strong>Misura:</strong> {{ product?.size }}</p>
+                                        <p><strong>Peso:</strong> {{ product?.weight }} kg</p>
+                                        <p><strong>Stock:</strong>{{product.productStock?.quantity}}</p>
+                                    </div>
+                                </div>
+                                <p *ngIf="product.productModel?.productModelProductDescriptions?.[0]?.productDescription?.description"
+                                    class="mb-3"><strong>Descrizione:</strong><br>
+                                    <span class="text-secondary">{{
+                                        product.productModel?.productModelProductDescriptions?.[0].productDescription.description
+                                        }}</span>
+                                </p>
+                                <div class="d-flex justify-content-end">
+                                    <app-modal-update-product [productId]="product.productId"
+                                        (productUpdated)="onProductUpdated()"></app-modal-update-product>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

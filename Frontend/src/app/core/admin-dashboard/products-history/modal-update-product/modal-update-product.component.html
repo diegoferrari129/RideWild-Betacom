@@ -1,0 +1,80 @@
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Aggiorna Prodotto</h4>
+        <button type="button" class="btn-close bg-danger" aria-label="Close"
+            (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form #updateProductForm="ngForm" (ngSubmit)="UpdateProducts(product.productId, updateProductForm.value)"
+            novalidate>
+            <div class="form-group">
+                <label for="productName">Nome Prodotto</label>
+                <input type="text" [(ngModel)]="productName" class="form-control" id="productName" name="productName"
+                    required minlength="3" maxlength="50">
+            </div>
+            <div class="form-group">
+                <label for="productNumber">Numero Prodotto</label>
+                <input type="text" [(ngModel)]="productNumber" class="form-control" id="productNumber"
+                    name="productNumber">
+            </div>
+            <div class="form-group">
+                <label for="productPrice">Prezzo Prodotto</label>
+                <input type="number" [(ngModel)]="productPrice" class="form-control" id="productPrice"
+                    name="productPrice" required min="0" step="0.01">
+            </div>
+            <div>
+                <label for="productListPrice">Prezzo di Listino Prodotto</label>
+                <input type="number" [(ngModel)]="productListPrice" class="form-control" id="productListPrice"
+                    name="productListPrice" required min="0" step="0.01">
+            </div>
+            <div>
+                <label for="productSize">Misura Prodotto</label>
+                <input type="text" [(ngModel)]="productSize" class="form-control" id="productSize" name="productSize"
+                    required>
+            </div>
+            <div class="form-group">
+                <label for="productWeight">Peso Prodotto</label>
+                <input type="number" [(ngModel)]="productWeight" class="form-control" id="productWeight"
+                    name="productWeight" required min="0" step="0.01" kg>
+            </div>
+
+            <div class="form-group">
+                <label for="productCategory">Categoria Prodotto</label>
+                <select class="form-select" id="productCategory" name="productCategory" [(ngModel)]="selectedCategory"
+                    required>
+                    <option value="Seleziona una categoria" disabled selected>Seleziona una categoria</option>
+                    <option [value]="category.productCategoryId" *ngFor="let category of categories">
+                        {{ category.name }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="productModel">Modello Prodotto</label>
+                <select class="form-select" id="productModel" name="productModel" [(ngModel)]="selectedModel" required>
+                    <option value="" disabled selected>Seleziona un modello</option>
+                    <option [value]="model.productModelId" *ngFor="let model of models">
+                        {{ model.name }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="productQuantity">Quantità Prodotto</label>
+                <input type="number" [(ngModel)]="quantity" class="form-control" id="productQuantity" name="quantity"
+                    required min="0" step="1" placeholder="Inserisci la quantità del prodotto">
+            </div>
+
+            <div class="form-group">
+                <label for="productImage">Immagine Prodotto</label>
+                <input type="text" [(ngModel)]="productImage" class="form-control" id="productImage" accept="image/*"
+                    name="productImage" required>
+            </div>
+
+            <button type="submit" class="btn mt-3 btn-outline-success">Aggiorna</button>
+        </form>
+    </div>
+</ng-template>
+
+<td><button (click)="open(content)" class="btn btn-warning"><i class="bi bi-pencil-square me2">
+        </i> Aggiorna Prodotto</button></td>

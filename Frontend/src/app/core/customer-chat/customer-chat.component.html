@@ -1,0 +1,129 @@
+<div class="container-fluid mt-3">
+  <div class="row gx-3">
+    <div class="col" *ngIf="!selectedThread">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Storico Thread</h5>
+        </div>
+
+        <div class="card-body py-2 border-bottom">
+          <h6 class="card-title mb-2 text-center fw-normal">Crea un nuovo thread</h6>
+          <div class="mb-2">
+            <label for="subjectInput" class="form-label visually-hidden">Oggetto della richiesta</label>
+            <input type="text"
+                   id="subjectInput"
+                   class="form-control form-control-sm"
+                   [(ngModel)]="subject"
+                   placeholder="Oggetto della nuova chat..." />
+          </div>
+          <div class="d-grid">
+            <button class="btn btn-success btn-sm" (click)="createThread()">
+              <i class="fas fa-plus me-1"></i> Avvia Nuova Chat
+            </button>
+          </div>
+        </div>
+
+      <div style="max-height: 250px; overflow-y: auto;">
+        <ul class="list-group list-group-flush">
+          <li *ngFor="let thread of customerThreads.slice().reverse()"
+              (click)="openThread(thread)"
+              class="list-group-item list-group-item-action"
+              [class.active]="selectedThread && selectedThread.id === thread.id" style="cursor: pointer;">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <strong>{{ thread.subject }}</strong>
+                <span *ngIf="thread.isOpened" class="badge bg-success ms-2">Aperto</span>
+                <span *ngIf="!thread.isOpened" class="badge bg-secondary ms-2">Chiuso</span>
+              </div>
+              <small class="text-muted">{{ thread.createdAt | date:'dd/MM HH:mm' }}</small>
+            </div>
+          </li>
+          <li *ngIf="!customerThreads || customerThreads.length === 0" class="list-group-item text-center text-muted">
+            Nessun thread presente. Inizia una nuova chat!
+          </li>
+        </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col" *ngIf="selectedThread">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">
+            Chat: {{ selectedThread.subject }}
+            <span *ngIf="selectedThread.isOpened" class="badge bg-success ms-2 fs-6">Aperto</span>
+            <span *ngIf="!selectedThread.isOpened" class="badge bg-danger ms-2 fs-6">Chiuso</span>
+          </h5>
+          <button class="btn btn-sm btn-outline-secondary" type="button" (click)="return()">
+            <i class="fas fa-arrow-left me-1"></i> Indietro
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="messages-area mb-3 p-3 border rounded bg-light shadow-sm"
+               style="height: 350px; overflow-y: auto; display: flex; flex-direction: column-reverse;">
+            <div *ngIf="!messages || messages.length === 0" class="text-center text-muted my-auto">
+              <i class="fas fa-comments fa-2x mb-2"></i><br>
+              Nessun messaggio in questa chat. <br>
+              <span *ngIf="selectedThread.isOpened">Inizia tu la conversazione!</span>
+              <span *ngIf="!selectedThread.isOpened">Questo thread è chiuso.</span>
+            </div>
+
+             <div *ngIf="aiTyping" class="message mb-2">
+              <div class="d-flex justify-content-start">
+                <div class="p-3 rounded shadow-sm bg-white text-dark border">
+                  <div class="d-flex align-items-center">
+                    <strong class="small me-2">attendi la risposta</strong>
+                    <div class="typing-indicator">
+                      <span class="dot"></span>
+                      <span class="dot"></span>
+                      <span class="dot"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div *ngFor="let msg of messages; let i = index" class="message mb-2">
+              
+              <div class="d-flex" [class.justify-content-end]="msg.senderId === 'currentUser'"> <div class="p-2 rounded shadow-sm"
+                     [ngClass]="msg.senderId === 'currentUser' ? 'bg-primary text-white' : 'bg-white text-dark border'">
+                  <div class="d-flex justify-content-between align-items-start">
+                    <div class="me-2">
+                      <strong class="small">{{ msg.senderId }}:</strong><br>
+                      <span class="message-content">{{ msg.message }}</span>
+                    </div>
+                    <small class="text-nowrap" [ngClass]="msg.senderId === 'currentUser' ? 'text-white-50' : 'text-muted'">
+                      {{ msg.timestamp | date:'HH:mm' }} </small>
+                  </div>
+                </div>
+              </div>
+
+              <button  class="btn btn-success mt-2"  *ngIf="msg.showOperatorButton" (click)="richiediOperatore(selectedThread)">
+                Parla con un operatore
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div *ngIf="selectedThread && !selectedThread.isOpened" class="alert alert-warning text-center p-2 small">
+            <i class="fas fa-lock me-1"></i> Questo thread è chiuso. Non è possibile inviare nuovi messaggi.
+          </div>
+          <div class="input-group" *ngIf="selectedThread && selectedThread.isOpened">
+            <input type="text"
+                   class="form-control"
+                   [(ngModel)]="newMessage"
+                   (keyup.enter)="sendMessage()"
+                   placeholder="Scrivi una risposta..."
+                   aria-label="Scrivi una risposta"
+                   [disabled]="!selectedThread.isOpened">
+            <button class="btn btn-success"
+                    type="button"
+                    (click)="sendMessage()"
+                    [disabled]="!newMessage || !selectedThread.isOpened">
+              Invia <i class="fas fa-paper-plane ms-1"></i> </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

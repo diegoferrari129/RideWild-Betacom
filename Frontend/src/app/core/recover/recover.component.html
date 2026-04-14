@@ -1,0 +1,15 @@
+<div class="recover-box pt-2">
+  <h5>Trova il tuo account</h5>
+  <p>Inserisci l'e-mail per cercare il tuo account.</p>
+
+  <form (ngSubmit)="onSubmit()">
+    <input class="form-control" type="text" placeholder="Indirizzo e-mail" [(ngModel)]="inputValue" name="accountInput"
+      required />
+    <div class="buttons">
+      <button type="button" class="btn btn-outline-danger shadow-sm custom-hover mt-3" (click)="router.navigate(['/'])">
+        Torna alla Home
+      </button>
+      <button type="submit" class="btn btn-green shadow-sm custom-hover mt-3">Invia</button>
+    </div>
+  </form>
+</div>

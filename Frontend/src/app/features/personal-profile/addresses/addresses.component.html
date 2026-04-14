@@ -1,0 +1,37 @@
+<div>
+  
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="mb-0">Indirizzi salvati</h3>
+    <app-new-address [buttonClass]="'btn btn-lg btn-outline-dark'" [buttonName]="'Aggiungi'"></app-new-address>
+  </div>
+ 
+  <div class="row">
+    
+    <div *ngFor="let address of customerAddresses" class="col-md-6 col-lg-4 mb-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+          <h5 class="mb-0 card-title">Indirizzo di {{address.addressType}}</h5>
+        </div>
+        <div class="card-body">
+          <p class="card-text mb-1"><strong>{{address.addressType}}</strong></p>
+          <p class="card-text mb-1">{{address.addressLine1}}</p>
+          <p class="card-text mb-1">{{address.city+', '+ address.postalCode}}</p>
+          <p class="card-text">{{address.countryRegion+', '+address.stateProvince}}</p>
+        </div>
+        <div class="card-footer bg-white border-top-0 pt-0">
+          <app-new-address
+            [addressToEdit]="address"
+            [isEditMode]="true"
+            [buttonName]="'Modifica'"
+            [buttonClass]="'btn btn-sm btn-outline-secondary me-2'">
+          </app-new-address>
+
+          <button type="button" class="btn btn-sm btn-outline-danger" (click)="removeAddress(address.addressId)">
+            <i class="fas fa-trash-alt me-1"></i>Cancella
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

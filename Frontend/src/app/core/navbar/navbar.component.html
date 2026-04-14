@@ -1,0 +1,120 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom fixed-top py-3 mb-2">
+  <div class="container d-flex flex-wrap justify-content-between align-items-center">
+    <a class="navbar-brand fw-semibold custom-wild d-flex align-items-center text-decoration-none"
+      [routerLink]="isAdmin ? '/admin-dashboard' : '/'">
+      <span class="text-success">Ride</span><span class="text-dark">Wild</span>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbarSupportedContent" class="collapse navbar-collapse justify-content-between align-items-center">
+
+      <!-- Mobile -->
+      <ul class="navbar-nav d-lg-none w-100 gap-2 mt-2">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/products" (click)="closeMobileMenu()">Prodotti</a>
+        </li>
+        <li class="nav-item" *ngIf="isLogged && !isAdmin">
+          <div class="position-relative d-inline-block">
+            <button class="btn p-0" routerLink="/cart">
+              <i class="bi bi-cart fs-4"></i>
+            </button>
+            <span *ngIf="cartCount > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
+              style="background: linear-gradient(135deg, #dc3545, #c82333); font-size: 0.65rem; padding: 0.3em 0.55em; box-shadow: 0 0 0.2rem rgba(0,0,0,0.2); z-index: 1;">
+              {{ cartCount }}
+            </span>
+          </div>
+        </li>
+        <li class="nav-item">
+          <input type="text" class="form-control" placeholder="Cerca…" [(ngModel)]="searchText" />
+        </li>
+        <li class="nav-item" *ngIf="isLogged && !isAdmin">
+          <a class="btn btn-outline-green w-100" routerLink="/personal-profile" (click)="closeMobileMenu()">
+            <i class="bi bi-person me-2"></i> Profilo
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="isLogged">
+          <button class="btn btn-outline-danger w-100" (click)="logout(); closeMobileMenu()">
+            <i class="bi bi-box-arrow-right me-2"></i> Esci
+          </button>
+        </li>
+        <li class="nav-item" *ngIf="!isLogged">
+          <a class="btn btn-a-custom w-100" routerLink="/login" [queryParams]="{ tipo: 'login' }"
+            (click)="closeMobileMenu()">Sign In</a>
+        </li>
+      </ul>
+
+      <!-- Desktop -->
+      <div class="d-none d-lg-flex flex-grow-1 justify-content-center align-items-center gap-4">
+        <a class="nav-link" *ngIf="!isLogged" routerLink="/products" (click)="closeMobileMenu()">Prodotti</a>
+        <a class="nav-link" *ngIf="isLogged && !isAdmin" routerLink="/products" (click)="closeMobileMenu()">Prodotti</a>
+        <div class="align-items-center search-wrapper d-flex rounded overflow-hidden shadow-sm" *ngIf="!isLogged"
+          style="width: 500px; max-width: 100%;">
+          <input type="text" class="form-control border-0 rounded-0" placeholder="Cerca..." [(ngModel)]="searchText"
+            (keyup.enter)="onSearch()" />
+          <button type="button" class="bg-light px-3 py-2 border-start btn" (click)="onSearch()">
+            <i class="bi bi-search fs-5"></i>
+          </button>
+        </div>
+        <div class="align-items-center search-wrapper d-flex rounded overflow-hidden shadow-sm"
+          *ngIf="isLogged && !isAdmin" style="width: 500px; max-width: 100%;">
+          <input type="text" class="form-control border-0 rounded-0" placeholder="Cerca..." [(ngModel)]="searchText"
+            (keyup.enter)="onSearch()" />
+          <button type="button" class="bg-light px-3 py-2 border-start btn" (click)="onSearch()">
+            <i class="bi bi-search fs-5"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="d-none d-lg-flex align-items-center gap-3">
+        <!-- Cart (Customer & user) -->
+        <div class="position-relative d-inline-block" *ngIf="isLogged && !isAdmin">
+          <button class="btn p-0" routerLink="/cart">
+            <i class="bi bi-cart fs-4"></i>
+
+            <span *ngIf="cartCount > 0"
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              style="font-size: 0.65rem; padding: 0.35em 0.6em; z-index: 1;">
+              {{ cartCount }}
+            </span>
+          </button>
+        </div>
+        <div class="position-relative" *ngIf="!isLogged">
+          <button class="btn" routerLink="/cart">
+            <i class="bi bi-cart fs-4"></i>
+          </button>
+          <span *ngIf="cartCount > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
+            style="background: linear-gradient(135deg, #dc3545, #c82333); font-size: 0.65rem; padding: 0.3em 0.55em; box-shadow: 0 0 0.2rem rgba(0,0,0,0.2); z-index: 1;">
+            {{ cartCount }}
+          </span>
+
+        </div>
+
+
+        <!-- Customer Dropdown -->
+        <div class="user-dropdown btn position-relative" *ngIf="isLogged && !isAdmin" (mouseenter)="openDropdown()"
+          (mouseleave)="closeDropdown()">
+          <i class="bi bi-person fs-4"></i>
+          <div class="dropdown-menu-custom position-absolute" *ngIf="showDropdown" (mouseenter)="showDropdown = true"
+            (mouseleave)="showDropdown = false">
+            <a class="dropdown-item" routerLink="/personal-profile">Profilo</a>
+            <a class="dropdown-item" (click)="logout()">Esci</a>
+          </div>
+        </div>
+
+        <!-- Admin only -->
+        <button class="btn btn-outline-danger" *ngIf="isLogged && isAdmin" (click)="logout()">
+          <i class="bi bi-box-arrow-right me-2"></i> Esci
+        </button>
+
+        <!-- Sign In -->
+        <a class="btn btn-a-custom" *ngIf="!isLogged" routerLink="/login" [queryParams]="{ tipo: 'login' }">
+          Sign In
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
